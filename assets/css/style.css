@@ -1,0 +1,13 @@
+.background-cats {
+    background-image: 
+}
+
+.game-content {
+    background-color: beige;
+    max-width: 500px;
+    min-width: 200px;
+    max-height: 500px;
+    min-height: 200px;
+    position: absolute;
+    text-align: center;
+}
