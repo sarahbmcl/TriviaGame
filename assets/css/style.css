@@ -1,13 +1,28 @@
-.background-cats {
-    background-image: 
+body {
+    background-image: url("https://images-na.ssl-images-amazon.com/images/I/A1r0FJcw5NL._SL1500_.jpg");
+}
+
+h1 {
+    text-align: center;
+    color: hotpink;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-size-adjust: auto;
+    font-size: 40px;
 }
 
 .game-content {
-    background-color: beige;
-    max-width: 500px;
-    min-width: 200px;
-    max-height: 500px;
-    min-height: 200px;
-    position: absolute;
-    text-align: center;
+    background-color: white;
+    opacity: .9;
+    overflow-wrap: auto;
+    margin: auto;
+    margin-top: 30px;
+    max-width: 900px;
+    min-width: 500px;
+    max-height: 900px;
+    min-height: 500px;
+    padding: 20px;
+    border-style: inset;
+    border-width: 10px;
+    border-color: deeppink;
 }
+
