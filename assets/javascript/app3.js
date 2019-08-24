@@ -1,7 +1,7 @@
 //array of objects
 const quizQuestions = [
     {
-        question: "In Disney's The Jungle Book who teaches Mowgli about The Bare Necesseties of life?",
+        question: "In Disney's The Jungle Book who teaches Mowgli about the bare necesseties of life?",
         choices: ["Baloo", "Bamboo", "Teera", "Shere"],
         correctAnswer: "Baloo"
     },
@@ -46,8 +46,25 @@ function loadQuestion() {
     const question = quizQuestions [currentQuestion].question;
     const choices = quizQuestions [currentQuestion].choices;
 
+
+    $("#time").html("Timer: " + counter);
+
     //display variables called on to screen in game div
-    $("#game").html("<h4>" + question + "</h4>");
+    $("#game").html(`
+        <h4>${question}</h4>
+        ${loadChoices(choices)}
+    `);
+}         //same as ("<h4>" + question + "</h4>")
+
+function loadChoices(choices) {
+    let result = "";
+
+    //DATA ANSWER****
+    for (let i = 0; i < choices.length; i++){
+        result += `<p class="choice" data-answer="${choices[i]}">${choices[i]}</p>`; //contains every value of every choice in a p tag
+    }
+
+    return result; 
 }
 
 loadQuestion();
