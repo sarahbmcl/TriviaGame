@@ -41,8 +41,10 @@ let timer; //holds id of set interval of clock
 
 function nextQuestion() {
     const isQuestionOver = (quizQuestions.length - 1) === currentQuestion;
+    
     if (isQuestionOver){
-        console.log("Game is over")
+        console.log("Game is over");
+        displayResult();
     }else{
     currentQuestion++;
     loadQuestion();
@@ -108,9 +110,30 @@ $(document).on("click", ".choice", function() {
         console.log ("incorrect");
         nextQuestion();
     }
-    
 
     console.log ("test answer", selectedAnswer)
+});
+
+function displayResult(){
+    const result = `
+        <p>You got ${score} question(s) correct</p>
+        <p>You got ${lost} question(s) incorrect</p>
+        <p>You had ${unanswered} question(s) right</p>
+        <button id="reset">Reset Game</button>
+    `;
+
+    $("game").html(result);
+}
+
+$(document).on("click", "#reset", function() {
+    counter = 30;
+    currentQuestion = 0; 
+    score = 0; 
+    lost = 0; 
+    unanswered = 0; 
+    timer = null;
+
+    loadQuestion(); 
 });
 
 loadQuestion();
