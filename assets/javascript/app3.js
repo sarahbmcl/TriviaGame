@@ -31,21 +31,39 @@ const quizQuestions = [
     }
 ]
 
+//array of gifs
+const winImages = [
+    './assets/images/yay1.gif',
+    './assets/images/yay2.gif',
+    './assets/images/yay3.gif',
+    './assets/images/yay4.gif',
+    './assets/images/yay5.gif'
+];
+
+const lossImages = [
+    './assets/images/boo1.gif',
+    './assets/images/boo2.gif',
+    './assets/images/boo3.gif',
+    './assets/images/boo4.gif',
+    './assets/images/boo5.gif'
+];
+
 //Initial values
 let counter = 30;
 let currentQuestion = 0; //pulls question from the array
-let score = 0; //correctly guessed
-let lost = 0; //incorrectly guessed
+let guessedCorrect = 0; //correctly guessed
+let guessedIncorrect = 0; //incorrectly guessed
 let unanswered = 0; 
 let timer; //holds id of set interval of clock
 
+//**HELP--WONT MOVE ON TO NEW SCREEN */
 function nextQuestion() {
     const isQuestionOver = (quizQuestions.length - 1) === currentQuestion;
     
     if (isQuestionOver){
         console.log("Game is over");
         displayResult();
-    }else{
+    } else {
     currentQuestion++;
     loadQuestion();
     }
@@ -71,8 +89,8 @@ function loadQuestion() {
     timer = setInterval(countDown, 1000);//*** */
     
     //call on current question with answer choices from array
-    const question = quizQuestions [currentQuestion].question;
-    const choices = quizQuestions [currentQuestion].choices;
+    const question = quizQuestions[currentQuestion].question;
+    const choices = quizQuestions[currentQuestion].choices;
 
 
     $("#time").html("Timer: " + counter);
@@ -81,6 +99,7 @@ function loadQuestion() {
     $("#game").html(`
         <h4>${question}</h4>
         ${loadChoices(choices)}
+        ${loadRemainingQuestion()}
     `);
 }         //same as ("<h4>" + question + "</h4>")
 
@@ -102,11 +121,11 @@ $(document).on("click", ".choice", function() {
     const correctAnswer = quizQuestions [currentQuestion].correctAnswer;
 
     if (correctAnswer === selectedAnswer){
-        score++; 
+        guessedCorrect++; 
         console.log ("correct");
         nextQuestion();
     }else{
-        lost++;
+        guessedIncorrect++;
         console.log ("incorrect");
         nextQuestion();
     }
@@ -114,12 +133,13 @@ $(document).on("click", ".choice", function() {
     console.log ("test answer", selectedAnswer)
 });
 
-function displayResult(){
+function displayResult() {
+
     const result = `
-        <p>You got ${score} question(s) correct</p>
-        <p>You got ${lost} question(s) incorrect</p>
-        <p>You had ${unanswered} question(s) right</p>
-        <button id="reset">Reset Game</button>
+        <p>You got ${guessedCorrect} question(s) correct</p>
+        <p>You got ${guessedIncorrect} question(s) incorrect</p>
+        <p>You had ${unanswered} question(s)</p>
+        <button type="button" id="reset">Reset Game</button>
     `;
 
     $("game").html(result);
@@ -128,12 +148,20 @@ function displayResult(){
 $(document).on("click", "#reset", function() {
     counter = 30;
     currentQuestion = 0; 
-    score = 0; 
-    lost = 0; 
+    guessedCorrect = 0; 
+    guessedIncorrect = 0; 
     unanswered = 0; 
     timer = null;
 
     loadQuestion(); 
 });
+
+
+function loadRemainingQuestion() {
+    const remainingQuestions = quizQuestions.length - (currentQuestion + 1);
+    const totalQuestions = quizQuestionslength;
+
+    return `Remaining Questions: ${remainingQuestions}/${totalQuestion}`;
+}
 
 loadQuestion();
