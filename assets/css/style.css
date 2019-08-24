@@ -15,6 +15,11 @@ h4 {
     color: hotpink; 
 }
 
+p {
+    text-align: center;
+    color: hotpink; 
+}
+
 .choice {
     border: 1px solid lightgrey;
     padding: 10px;
@@ -25,7 +30,6 @@ h4 {
 .game-content {
     background-color: white;
     opacity: .95;
-    overflow-wrap: auto;
     margin: auto;
     margin-top: 30px;
     max-width: 900px;

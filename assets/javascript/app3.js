@@ -1,4 +1,4 @@
-//array of objects
+//-----array of objects-----//
 const quizQuestions = [
     {
         question: "In Disney's The Jungle Book who teaches Mowgli about the bare necesseties of life?",
@@ -31,7 +31,7 @@ const quizQuestions = [
     }
 ]
 
-//array of gifs
+//-----array of gifs-----//
 const winImages = [
     "./assets/images/yay1.gif",
     "./assets/images/yay2.gif",
@@ -48,36 +48,37 @@ const lossImages = [
     "./assets/images/boo5.gif"
 ];
 
-//Initial values
+//-----Initial values-----//
 let counter = 30;
-let currentQuestion = 0; //pulls question from the array
-let guessedCorrect = 0; //correctly guessed
-let guessedIncorrect = 0; //incorrectly guessed
+let currentQuestion = 0; 
+let guessedCorrect = 0; 
+let guessedIncorrect = 0; 
 let unanswered = 0; 
-let timer; //holds id of set interval of clock
+let timer; 
 
-//**HELP--WONT MOVE ON TO NEW SCREEN */
+
+//-----Functions-----//
 function nextQuestion() {
-    const isQuestionOver = (quizQuestions.length - 1) === currentQuestion;
-    
+    const isQuestionOver = (quizQuestions.length - 1) === currentQuestion; //************stuck here*************/ 
     if (isQuestionOver){
         console.log("Game is over");
-        displayResult();
-    } else {
-    currentQuestion++;
-    loadQuestion();
+        displayResult();//************HELP--WONT MOVE ON TO NEW SCREEN *************/ 
+    } else { 
+        currentQuestion++;
+        loadQuestion();
     }
 }
 
 function timeUp() {
     clearInterval(timer);
     unanswered++;
-    nextQuestion();
+    preloadImage("loss");
+    setTimeout(nextQuestion, 3 * 1000);
 }
 
 function countDown() {
     counter--;
-    $("#time").html("Timer: " + counter); //**** */
+    $("#time").html("Timer: " + counter); 
     if (counter === 0) {
         timeUp();
     }
@@ -85,8 +86,8 @@ function countDown() {
 
 //display the question and choices together in the browser
 function loadQuestion() {
-    counter = 30; //always call function with 30 initial value
-    timer = setInterval(countDown, 1000);//*** */
+    counter = 30; 
+    timer = setInterval(countDown, 1000);
     
     //call on current question with answer choices from array
     const question = quizQuestions[currentQuestion].question;
@@ -106,7 +107,6 @@ function loadQuestion() {
 function loadChoices(choices) {
     let result = "";
 
-    //DATA ANSWER****
     for (let i = 0; i < choices.length; i++){
         result += `<p class="choice" data-answer="${choices[i]}">${choices[i]}</p>`; //contains every value of every choice in a p tag
     }
@@ -114,25 +114,24 @@ function loadChoices(choices) {
     return result; 
 }
 
-//**** more functional than $(".choice").on("click", function()
-$(document).on("click", ".choice", function() {
+$(document).on("click", ".choice", function() { //more functional than $(".choice").on("click", function()
     clearInterval(timer);
     const selectedAnswer = $(this).attr("data-answer");
-    const correctAnswer = quizQuestions [currentQuestion].correctAnswer;
+    const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
 
     if (correctAnswer === selectedAnswer){
         guessedCorrect++; 
         console.log ("correct");
         preloadImage("win");
-        setTimeout(nextQuestion, 3 *1000);
+        setTimeout(nextQuestion, 3 * 1000);
     }else{
         guessedIncorrect++;
         console.log ("incorrect");
         preloadImage("loss");
-        setTimeout(nextQuestion, 3 *1000);
+        setTimeout(nextQuestion, 3 * 1000);
     }
 
-    console.log ("test answer", selectedAnswer)
+    //console.log ("test answer", selectedAnswer)
 });
 
 function displayResult() {
@@ -161,9 +160,9 @@ $(document).on("click", "#reset", function() {
 
 function loadRemainingQuestion() {
     const remainingQuestions = quizQuestions.length - (currentQuestion + 1);
-    const totalQuestions = quizQuestionslength;
+    const totalQuestions = quizQuestions.length;
 
-    return `Remaining Questions: ${remainingQuestions}/${totalQuestion}`;
+    return `Remaining Questions: ${remainingQuestions}/${totalQuestions}`;
 }
 
 function randomImage(images) {
@@ -172,7 +171,7 @@ function randomImage(images) {
     return randomImage;
 }
 
-function preloadImage(status) {
+function preloadImage(status) {//***understanding status */
     const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
 
     if (status === "win") {
@@ -190,8 +189,8 @@ function preloadImage(status) {
     }
 }
 
-$('#start').click(function() {
-    $('#start').remove();
-    $('#time').html(counter);
+$(".start").click(function() {
+    $(".start").remove();
+    $("#time").html(counter);
     loadQuestion();
 });
