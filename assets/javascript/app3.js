@@ -33,19 +33,19 @@ const quizQuestions = [
 
 //array of gifs
 const winImages = [
-    './assets/images/yay1.gif',
-    './assets/images/yay2.gif',
-    './assets/images/yay3.gif',
-    './assets/images/yay4.gif',
-    './assets/images/yay5.gif'
+    "./assets/images/yay1.gif",
+    "./assets/images/yay2.gif",
+    "./assets/images/yay3.gif",
+    "./assets/images/yay4.gif",
+    "./assets/images/yay5.gif"
 ];
 
 const lossImages = [
-    './assets/images/boo1.gif',
-    './assets/images/boo2.gif',
-    './assets/images/boo3.gif',
-    './assets/images/boo4.gif',
-    './assets/images/boo5.gif'
+    "./assets/images/boo1.gif",
+    "./assets/images/boo2.gif",
+    "./assets/images/boo3.gif",
+    "./assets/images/boo4.gif",
+    "./assets/images/boo5.gif"
 ];
 
 //Initial values
@@ -117,17 +117,19 @@ function loadChoices(choices) {
 //**** more functional than $(".choice").on("click", function()
 $(document).on("click", ".choice", function() {
     clearInterval(timer);
-    const selectedAnswer = $(this).attr('data-answer');
+    const selectedAnswer = $(this).attr("data-answer");
     const correctAnswer = quizQuestions [currentQuestion].correctAnswer;
 
     if (correctAnswer === selectedAnswer){
         guessedCorrect++; 
         console.log ("correct");
-        nextQuestion();
+        preloadImage("win");
+        setTimeout(nextQuestion, 3 *1000);
     }else{
         guessedIncorrect++;
         console.log ("incorrect");
-        nextQuestion();
+        preloadImage("loss");
+        setTimeout(nextQuestion, 3 *1000);
     }
 
     console.log ("test answer", selectedAnswer)
@@ -164,4 +166,32 @@ function loadRemainingQuestion() {
     return `Remaining Questions: ${remainingQuestions}/${totalQuestion}`;
 }
 
-loadQuestion();
+function randomImage(images) {
+    const random = Math.floor(Math.random() * images.length);
+    const randomImage = images[random];
+    return randomImage;
+}
+
+function preloadImage(status) {
+    const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
+
+    if (status === "win") {
+        $("game").html(`
+            <p class="preload-image">Congratulations, you're correct!</p>
+            <p class="preload-image">The correct answer is <b>${correctAnswer}</b></p>
+            <img src="${randomImage(winImages)}" />
+        `);
+    } else {
+        $("#game").html(`
+            <p class="preload-image">Incorrect!</p>
+            <p class="preload-image">The correct answer was <b>${correctAnswer}</b></p>
+            <img src="${randomImage(lossImages)}" />
+        `);
+    }
+}
+
+$('#start').click(function() {
+    $('#start').remove();
+    $('#time').html(counter);
+    loadQuestion();
+});
