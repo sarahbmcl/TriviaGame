@@ -67,15 +67,19 @@ function preloadImage(status) {
 
     if (status === 'win') {
         $("#game").html(`
-            <p class="preload-image">Congratulations, you're correct!</p>
-            <p class="preload-image">The correct answer is <b>${correctAnswer}</b></p>
-            <img src="${randomImage(winImages)}" />
+            <div class="centered">
+            <p class="preload-image"><b>Correct!</b></p>
+            <p class="preload-image">The the answer is <b>${correctAnswer}</b></p>
+            <img class="winGIF" src="${randomImage(winImages)}" />
+            </div>
         `);
     } else {
         $("#game").html(`
-            <p class="preload-image">Incorrect!</p>
+            <div class="centered">
+            <p class="preload-image"><b>Incorrect!</b></p>
             <p class="preload-image">The correct answer was <b>${correctAnswer}</b></p>
             <img src="${randomImage(lossImages)}" />
+            </div>
         `);
     }
 }
@@ -97,7 +101,7 @@ function timeUp() {
     clearInterval(timer);
     unanswered++;
     preloadImage('loss');
-    setTimeout(nextQuestion, 4 * 1000);
+    setTimeout(nextQuestion, 3 * 1000);
 }
 
 //changes the counter variable at 1 sec
@@ -126,6 +130,7 @@ function loadQuestion() {
     $("#game").html(`
         <h4>${question}</h4>
         ${loadChoices(choices)}
+        <div class="centered" id="question-counter">${loadRemainingQuestion()}</div>
     `);
 }         
 
@@ -150,12 +155,12 @@ $(document).on("click", ".choice", function() { //more functional than $(".choic
         guessedCorrect++; 
         console.log ("correct");
         preloadImage('win');
-        setTimeout(nextQuestion, 4 * 1000);
+        setTimeout(nextQuestion, 3 * 1000);
     } else {
         guessedIncorrect++;
         console.log ("incorrect");
         preloadImage('loss');
-        setTimeout(nextQuestion, 4 * 1000);
+        setTimeout(nextQuestion, 3 * 1000);
     }
 
     //console.log ("test answer", selectedAnswer)
@@ -165,17 +170,19 @@ $(document).on("click", ".choice", function() { //more functional than $(".choic
 function displayResult() {
 
     const result = `
+        <div class="centered">
         <p>You had ${guessedCorrect} question(s) correct</p>
         <p>You had ${guessedIncorrect} question(s) incorrect</p>
         <p>You had ${unanswered} question(s) unanswered</p>
-        <button type="button" id="reset">Reset Game</button>
+        <button type="button" id="button" class="reset">Reset Game</button>
+        </div>
     `;
 
     $("#game").html(result);
 }
 
 //reset values
-$(document).on("click", "#reset", function() {
+$(document).on("click", ".reset", function() {
     counter = 30;
     currentQuestion = 0; 
     guessedCorrect = 0; 
@@ -193,6 +200,13 @@ function randomImage(images) {
     return randomImage;
 }
 
+//tells you what question you are on
+function loadRemainingQuestion() {
+    const currentPosition = (currentQuestion + 1);
+    const totalQuestion = quizQuestions.length;
+
+    return `Question ${currentPosition} of ${totalQuestion}`;
+}
 
 //restarting the game
 $(".start").click(function() {

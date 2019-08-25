@@ -4,24 +4,30 @@ body {
 
 h1 {
     text-align: center;
-    color: hotpink;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: deeppink;
     text-size-adjust: auto;
-    font-size: 40px;
+    font-size: larger;
+    font-weight: bold;
 }
 
 h4 {
     text-align: center;
-    color: hotpink; 
+    color: rgba(255, 20, 145, 0.863); 
+    padding-bottom: 10px;
 }
 
 p {
     text-align: center;
-    color: hotpink; 
+    color:deeppink; 
+    font-size: larger;
+}
+
+.choice:hover {
+    background-color: rgb(224, 191, 3);
 }
 
 .choice {
-    border: 1px solid lightgrey;
+    border: 1.5px solid rgba(233, 199, 7, 0.808);
     padding: 10px;
     border-radius: 4px;
     cursor: pointer;
@@ -29,11 +35,11 @@ p {
 
 .game-content {
     background-color: white;
-    opacity: .95;
+    opacity: .99;
     margin: auto;
     margin-top: 30px;
-    max-width: 900px;
-    min-width: 500px;
+    max-width: 800px;
+    min-width: 300px;
     max-height: 900px;
     min-height: 500px;
     padding: 20px;
@@ -42,3 +48,27 @@ p {
     border-color: deeppink;
 }
 
+#time {
+    text-align: center;
+    font-size: larger;
+    color:  rgb(224, 191, 3);
+    padding: 10px;
+} 
+
+.centered {
+    text-align: center;
+}
+
+#button {
+    background-color: rgb(224, 191, 3);
+    color: deeppink;
+    padding: 5px;
+    border-color: rgb(224, 191, 3);
+    text-align: center;
+    font-size: larger;
+}
+
+#question-counter {
+    color: goldenrod;
+    font-size: smaller;
+}
