@@ -58,17 +58,20 @@ let timer;
 
 
 //-----Functions-----//
+
+//determines when the game is over
 function nextQuestion() {
-    const isQuestionOver = (quizQuestions.length - 1) === currentQuestion; //************stuck here*************/ 
+    const isQuestionOver = (quizQuestions.length - 1) === currentQuestion; 
     if (isQuestionOver){
         console.log("Game is over");
-        displayResult();//************HELP--WONT MOVE ON TO NEW SCREEN *************/ 
+        displayResult();
     } else { 
         currentQuestion++;
         loadQuestion();
     }
 }
 
+//what happens when 30 seconds are up on a question
 function timeUp() {
     clearInterval(timer);
     unanswered++;
@@ -76,6 +79,7 @@ function timeUp() {
     setTimeout(nextQuestion(), 3 * 1000);
 }
 
+//changes the counter variable at 1 sec
 function countDown() {
     counter--;
     $("#time").html("Timer: " + counter); 
@@ -84,7 +88,7 @@ function countDown() {
     }
 }
 
-//display the question and choices together in the browser
+//what happens when a new question is loaded
 function loadQuestion() {
     counter = 30; 
     timer = setInterval(countDown, 1000);
@@ -96,13 +100,15 @@ function loadQuestion() {
 
     $("#time").html("Timer: " + counter);
 
-    //display variables called on to screen in game div
+    //display variables called onto screen in game div
+    //same as ("<h4>" + question + "</h4>")
     $("#game").html(`
         <h4>${question}</h4>
         ${loadChoices(choices)}
     `);
-}         //same as ("<h4>" + question + "</h4>")
+}         
 
+//displaying answer choices for a specific question
 function loadChoices(choices) {
     let result = "";
 
@@ -113,6 +119,7 @@ function loadChoices(choices) {
     return result; 
 }
 
+//winning-losing responses
 $(document).on("click", ".choice", function() { //more functional than $(".choice").on("click", function()
     clearInterval(timer);
     const selectedAnswer = $(this).attr("data-answer");
@@ -133,6 +140,7 @@ $(document).on("click", ".choice", function() { //more functional than $(".choic
     //console.log ("test answer", selectedAnswer)
 });
 
+//results page with final tallies
 function displayResult() {
 
     const result = `
@@ -145,6 +153,7 @@ function displayResult() {
     $("#game").html(result);
 }
 
+//reset values
 $(document).on("click", "#reset", function() {
     counter = 30;
     currentQuestion = 0; 
@@ -156,16 +165,19 @@ $(document).on("click", "#reset", function() {
     loadQuestion(); 
 });
 
+//function for returning random gifs from string
 function randomImage(images) {
     const random = Math.floor(Math.random() * images.length);
     const randomImage = images[random];
     return randomImage;
 }
 
-function preloadImage(status) {//***understanding status */
+//displayed after user chooses a question and informs them if they are correct
+function preloadImage(status) {
+    
     const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
 
-    if (status === "win") {
+    if ("win") {
         $("game").html(`
             <p class="preload-image">Congratulations, you're correct!</p>
             <p class="preload-image">The correct answer is <b>${correctAnswer}</b></p>
@@ -180,32 +192,9 @@ function preloadImage(status) {//***understanding status */
     }
 }
 
+//restarting the game
 $(".start").click(function() {
     $(".start").remove();
     $("#time").html(counter);
     loadQuestion();
 });
-
-
-
-
-
-
-
-
-
-
-
-//game over
-    //all questions done
-        //show result
-            //reset
-    //questions left
-        //show the next question
-            //if times up  
-                //you loss and move to next question
-                    //unanswred++
-            //if answer clicked
-                //correct // win++
-                //not correct //loss++
-                
