@@ -73,7 +73,7 @@ function timeUp() {
     clearInterval(timer);
     unanswered++;
     preloadImage("loss");
-    setTimeout(nextQuestion, 3 * 1000);
+    setTimeout(nextQuestion(), 3 * 1000);
 }
 
 function countDown() {
@@ -100,7 +100,6 @@ function loadQuestion() {
     $("#game").html(`
         <h4>${question}</h4>
         ${loadChoices(choices)}
-        ${loadRemainingQuestion()}
     `);
 }         //same as ("<h4>" + question + "</h4>")
 
@@ -123,12 +122,12 @@ $(document).on("click", ".choice", function() { //more functional than $(".choic
         guessedCorrect++; 
         console.log ("correct");
         preloadImage("win");
-        setTimeout(nextQuestion, 3 * 1000);
+        setTimeout(nextQuestion(), 3 * 1000);
     }else{
         guessedIncorrect++;
         console.log ("incorrect");
         preloadImage("loss");
-        setTimeout(nextQuestion, 3 * 1000);
+        setTimeout(nextQuestion(), 3 * 1000);
     }
 
     //console.log ("test answer", selectedAnswer)
@@ -143,7 +142,7 @@ function displayResult() {
         <button type="button" id="reset">Reset Game</button>
     `;
 
-    $("game").html(result);
+    $("#game").html(result);
 }
 
 $(document).on("click", "#reset", function() {
@@ -156,14 +155,6 @@ $(document).on("click", "#reset", function() {
 
     loadQuestion(); 
 });
-
-
-function loadRemainingQuestion() {
-    const remainingQuestions = quizQuestions.length - (currentQuestion + 1);
-    const totalQuestions = quizQuestions.length;
-
-    return `Remaining Questions: ${remainingQuestions}/${totalQuestions}`;
-}
 
 function randomImage(images) {
     const random = Math.floor(Math.random() * images.length);
@@ -194,3 +185,27 @@ $(".start").click(function() {
     $("#time").html(counter);
     loadQuestion();
 });
+
+
+
+
+
+
+
+
+
+
+
+//game over
+    //all questions done
+        //show result
+            //reset
+    //questions left
+        //show the next question
+            //if times up  
+                //you loss and move to next question
+                    //unanswred++
+            //if answer clicked
+                //correct // win++
+                //not correct //loss++
+                
