@@ -59,6 +59,27 @@ let timer;
 
 //-----Functions-----//
 
+
+//displayed after user chooses a question and informs them if they are correct
+function preloadImage(status) {
+    
+    const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
+
+    if (status === 'win') {
+        $("#game").html(`
+            <p class="preload-image">Congratulations, you're correct!</p>
+            <p class="preload-image">The correct answer is <b>${correctAnswer}</b></p>
+            <img src="${randomImage(winImages)}" />
+        `);
+    } else {
+        $("#game").html(`
+            <p class="preload-image">Incorrect!</p>
+            <p class="preload-image">The correct answer was <b>${correctAnswer}</b></p>
+            <img src="${randomImage(lossImages)}" />
+        `);
+    }
+}
+
 //determines when the game is over
 function nextQuestion() {
     const isQuestionOver = (quizQuestions.length - 1) === currentQuestion; 
@@ -75,8 +96,8 @@ function nextQuestion() {
 function timeUp() {
     clearInterval(timer);
     unanswered++;
-    preloadImage("loss");
-    setTimeout(nextQuestion(), 3 * 1000);
+    preloadImage('loss');
+    setTimeout(nextQuestion, 4 * 1000);
 }
 
 //changes the counter variable at 1 sec
@@ -128,13 +149,13 @@ $(document).on("click", ".choice", function() { //more functional than $(".choic
     if (correctAnswer === selectedAnswer){
         guessedCorrect++; 
         console.log ("correct");
-        preloadImage("win");
-        setTimeout(nextQuestion(), 3 * 1000);
-    }else{
+        preloadImage('win');
+        setTimeout(nextQuestion, 4 * 1000);
+    } else {
         guessedIncorrect++;
         console.log ("incorrect");
-        preloadImage("loss");
-        setTimeout(nextQuestion(), 3 * 1000);
+        preloadImage('loss');
+        setTimeout(nextQuestion, 4 * 1000);
     }
 
     //console.log ("test answer", selectedAnswer)
@@ -144,9 +165,9 @@ $(document).on("click", ".choice", function() { //more functional than $(".choic
 function displayResult() {
 
     const result = `
-        <p>You got ${guessedCorrect} question(s) correct</p>
-        <p>You got ${guessedIncorrect} question(s) incorrect</p>
-        <p>You had ${unanswered} question(s)</p>
+        <p>You had ${guessedCorrect} question(s) correct</p>
+        <p>You had ${guessedIncorrect} question(s) incorrect</p>
+        <p>You had ${unanswered} question(s) unanswered</p>
         <button type="button" id="reset">Reset Game</button>
     `;
 
@@ -172,25 +193,6 @@ function randomImage(images) {
     return randomImage;
 }
 
-//displayed after user chooses a question and informs them if they are correct
-function preloadImage(status) {
-    
-    const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
-
-    if ("win") {
-        $("game").html(`
-            <p class="preload-image">Congratulations, you're correct!</p>
-            <p class="preload-image">The correct answer is <b>${correctAnswer}</b></p>
-            <img src="${randomImage(winImages)}" />
-        `);
-    } else {
-        $("#game").html(`
-            <p class="preload-image">Incorrect!</p>
-            <p class="preload-image">The correct answer was <b>${correctAnswer}</b></p>
-            <img src="${randomImage(lossImages)}" />
-        `);
-    }
-}
 
 //restarting the game
 $(".start").click(function() {
